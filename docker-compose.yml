@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  it-tools:
+    image: ${DOCKER_USERNAME}/it-tools:latest
+    container_name: it-tools
+    restart: unless-stopped
+    ports:
+      - '3000:80'
+    environment:
+      - NODE_ENV=production
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:80']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Tùy chọn: Watchtower để tự động update container khi có image mới
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: watchtower
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   environment:
+  #     - WATCHTOWER_CLEANUP=true
+  #     - WATCHTOWER_POLL_INTERVAL=300
+  #     - WATCHTOWER_LABEL_ENABLE=true
