@@ -67,7 +67,7 @@ jobs:
             docker run -d \
               --name it-tools \
               --restart unless-stopped \
-              -p 3000:8080 \
+              -p 3000:80 \
               $IMAGE
 
             # Dọn dẹp images cũ
